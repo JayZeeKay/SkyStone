@@ -1,0 +1,77 @@
+package org.firstinspires.ftc.robotcontroller.internal;
+
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.Servo;
+
+/*
+    author(s): Jacob Marinas
+    date: 9/18/19 - tba
+    summary:
+*/
+@TeleOp (name = "driverControl")
+public class driverControl extends OpMode {
+
+    public DcMotor frontLeft;
+    public DcMotor frontRight;
+    public DcMotor backLeft;
+    public DcMotor backRight;
+    public DcMotor leftLift;
+    public DcMotor rightLift;
+    public Servo pincher;
+    public Servo latcherR;
+    public Servo latcherL;
+
+    @Override
+    public void init() {
+
+        frontLeft = hardwareMap.dcMotor.get("frontLeft");
+        frontRight = hardwareMap.dcMotor.get("frontRight");
+        backLeft = hardwareMap.dcMotor.get("backLeft");
+        backRight = hardwareMap.dcMotor.get("backRight");
+        leftLift = hardwareMap.dcMotor.get("leftLift");
+        rightLift = hardwareMap.dcMotor.get("rightLift");
+        pincher = hardwareMap.servo.get("pincher");
+        latcherR = hardwareMap.servo.get("latcherR");
+        latcherL = hardwareMap.servo.get("latcherL");
+
+        backLeft.setDirection(DcMotorSimple.Direction.REVERSE);
+        frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
+    }
+
+    @Override
+    public void loop() {
+        /* to do list:
+        moving forward
+        moving backwards
+        pivot turn left
+        pivot turn right
+        strafing left
+        strafing right
+        lifting up
+        lifting down
+        pinching
+        release from pinch
+        latching
+        release from latch
+         */
+
+        int degrees = 0;
+        //strafe
+        frontRight.setPower();
+        frontLeft.setPower();
+        backRight.setPower();
+        backLeft.setPower();
+
+        if (gamepad2.dpad_up) {
+            degrees += 90;
+            if (degrees > 180) {
+                degrees = 0;
+            }
+            latcherL.setPosition(degrees);
+        }
+    }
+}
+
