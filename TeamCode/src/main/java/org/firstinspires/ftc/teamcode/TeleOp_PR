@@ -1,0 +1,135 @@
+package org.firstinspires.ftc.robotcontroller.internal;
+
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.Servo;
+
+/*
+author: Emilee woodward
+date: 9/25/19
+summary: TeleOp (possible) PR
+forward/Back
+Strafe
+Pivot Slide
+*/
+
+@TeleOp(name= "drivercontrol" )
+public class TeleOp_PR extends OpMode {
+
+   public DcMotor frontRight;
+   public DcMotor frontLeft;
+   public DcMotor backRight;
+   public DcMotor backLeft;
+   public DcMotor liftRight;
+   public DcMotor liftLeft;
+   public DcMotor pivotRight;
+   public DcMotor pivotLeft;
+   public Servo rightT;
+   public Servo leftT;
+   public Servo intake;
+
+
+   public void init() {
+       frontRight = hardwareMap.dcMotor.get("frontRight");
+       frontLeft = hardwareMap.dcMotor.get("frontLeft");
+       backRight = hardwareMap.dcMotor.get("backRight");
+       backLeft = hardwareMap.dcMotor.get("backLeft");
+       liftRight = hardwareMap.dcMotor.get("liftRight");
+       liftLeft = hardwareMap.dcMotor.get("liftLeft");
+       pivotRight = hardwareMap.dcMotor.get("pivotRight");
+       pivotLeft = hardwareMap.dcMotor.get("pivotLeft");
+       rightT = hardwareMap.servo.get("rightT");
+       leftT = hardwareMap.servo.get("leftT");
+       intake = hardwareMap.servo.get("intake");
+
+       frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
+       backLeft.setDirection(DcMotorSimple.Direction.REVERSE);
+       pivotLeft.setDirection(DcMotorSimple.Direction.REVERSE);
+
+   }
+
+   @Override
+   public void loop() {
+   /* Forward
+      Back
+      Strafe Left
+      Strafe Right
+      Point Turn Left
+      Point Turn Right
+      Pivot slides (Forward)
+      Pivot Slides (Back)
+      Shift intake
+      90 degree rightT/LeftT Turn
+      180 degree rightT/LeftT Turn
+      Lift Intake
+      */
+
+       if (Math.abs(gamepad1.left_stick_y) > .1) {
+           frontRight.setPower(gamepad1.left_stick_y);
+           frontLeft.setPower(gamepad1.left_stick_y);
+           backRight.setPower(gamepad1.left_stick_y);
+           backLeft.setPower(gamepad1.left_stick_y);
+
+       }
+       else {
+           frontRight.setPower(0);
+           frontLeft.setPower(0);
+           backRight.setPower(0);
+           backLeft.setPower(0);
+       }
+       //strafe Right/Left
+       if (Math.abs(gamepad1.right_stick_x) > .1 ){
+           frontRight.setPower(-gamepad1.right_stick_x);
+           frontLeft.setPower(gamepad1.right_stick_x);
+           backRight.setPower(-gamepad1.right_stick_x);
+           backLeft.setPower(gamepad1.right_stick_x);
+       }
+       else {
+           frontRight.setPower(0);
+           frontLeft.setPower(0);
+           backRight.setPower(0);
+           backLeft.setPower(0);
+       }
+       // point right
+       if (gamepad1.dpad_right){
+           frontRight.setPower(0);
+           frontLeft.setPower(.5);
+           backRight.setPower(0);
+           backLeft.setPower(.5);
+       }
+       else{
+           frontLeft.setPower(0);
+           backLeft.setPower(0);
+       }
+       //point Reft
+       if (gamepad1.dpad_left){
+           frontRight.setPower(.5);
+           frontLeft.setPower(0);
+           backRight.setPower(.5);
+           backLeft.setPower(0);
+       }
+       else {
+           frontRight.setPower(0);
+           backRight.setPower(0);
+       }
+       //slide forward
+       if (gamepad2.dpad_up){
+           pivotRight.setPower(-.5);
+           pivotLeft.setPower(-.5);
+
+       }
+       else {
+           pivotRight.setPower(0);
+           pivotLeft.setPower(0);
+       }
+       if (gamepad1.dpad_down){
+           pivotRight.setPower(.5);
+           pivotLeft.setPower(.5);
+
+       }
+
+   }
+
+}
