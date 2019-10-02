@@ -26,6 +26,7 @@ public class AutonomousPR extends LinearOpMode {
     Servo pinch;
     Servo leftT;
     Servo rightT;
+    
 
     double TICKS_PER_IN = 1120/(4*Math.PI);
 
