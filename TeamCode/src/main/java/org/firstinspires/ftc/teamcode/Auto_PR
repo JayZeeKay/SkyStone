@@ -6,6 +6,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
+// hi
+
 @Autonomous (name= "Auto_PR")
 public class Auto_PR extends LinearOpMode {
     public DcMotor frontRight;
