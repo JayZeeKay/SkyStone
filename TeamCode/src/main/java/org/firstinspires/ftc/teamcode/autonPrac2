@@ -1,0 +1,111 @@
+package org.firstinspires.ftc.robotcontroller.internal;
+
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.Servo;
+
+public class autonPrac2 extends LinearOpMode {
+
+    public DcMotor frontLeft;
+    public DcMotor frontRight;
+    public DcMotor backLeft;
+    public DcMotor backRight;
+    public DcMotor leftLift;
+    public DcMotor rightLift;
+    public DcMotor rightPivotSlide;
+    public DcMotor leftPivotSlide;
+    public Servo pincher;
+    public Servo latcherR;
+    public Servo latcherL;
+
+    static final int MOTOR_TICK_COUNTS = 1120;
+
+    @Override
+    public void runOpMode() throws InterruptedException {
+
+        frontLeft = hardwareMap.dcMotor.get("frontLeft");
+        frontRight = hardwareMap.dcMotor.get("frontRight");
+        backLeft = hardwareMap.dcMotor.get("backLeft");
+        backRight = hardwareMap.dcMotor.get("backRight");
+        leftLift = hardwareMap.dcMotor.get("leftLift");
+        rightLift = hardwareMap.dcMotor.get("rightLift");
+        rightPivotSlide = hardwareMap.dcMotor.get("rightPivotSlide");
+        leftPivotSlide = hardwareMap.dcMotor.get("leftPivotSlide");
+        pincher = hardwareMap.servo.get("pincher");
+        latcherR = hardwareMap.servo.get("latcherR");
+        latcherL = hardwareMap.servo.get("latcherL");
+
+        backLeft.setDirection(DcMotorSimple.Direction.REVERSE);
+        frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
+
+
+
+        waitForStart();
+
+        moveForward(.5, .5, 3000);
+
+        pointTurnLeft(.5, .5);
+
+        moveForward(.5, .5, 5000);
+
+        pincher.setPosition(180);
+
+        lift(.5, .5, 1);
+
+        moveForward(.4, .7, 10000)
+
+
+
+        leftPivotSlide.setPower(.5);
+        rightPivotSlide.setPower(.5);
+        sleep(500)
+
+
+
+
+
+
+
+        /*
+        outline:
+        move forward for 3 seconds
+        turn left
+        turn pivot slides
+        move forward 2 seconds
+        turn pincher
+        move lift up
+        move forward 2 seconds
+        move lift down
+        move backward 4 seconds
+        latch to foundation
+        move forward 1 second
+        unlatch from foundation
+        turn right
+
+
+         */
+
+    }
+
+    public void moveForward(double rightPower, double leftPower, int ms) {
+        frontLeft.setPower(leftPower);
+        frontRight.setPower(rightPower);
+        backLeft.setPower(leftPower);
+        backRight.setPower(rightPower);
+        sleep(ms);
+    }
+
+    public void pointTurnLeft(double rightPower, int ms) {
+        frontLeft.setPower(0);
+        frontRight.setPower(rightPower);
+        backLeft.setPower(0);
+        backRight.setPower(rightPower);
+    }
+
+    public void lift(double r, double l, int ms) {
+        leftLift.setPower(l);
+        rightLift.setPower(r);
+        sleep(ms);
+    }
+}
