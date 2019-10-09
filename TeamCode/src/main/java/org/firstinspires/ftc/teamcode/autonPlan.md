@@ -17,4 +17,28 @@ Autonomous:
 * Move forward 35 inches
   * approaching block
   * At: (5, 1)
-* 
+* Grab the block; close intake
+  * block is held
+* Move backwards 25 inches
+  * align with alliance bridge
+  * At: (5.5, 1)
+* Pivot turn right approx 90 degrees right 
+  * now facing alliance bridge
+* Lower pivot slides 
+  * robot is lowered to fit under bridge
+* Move forward 53 inches
+  * at other side of bridge
+  * At: (5.5, 5.5)
+* Raise pivot slides
+  * prepare to drop element
+* Let go of block; open intake
+  * drop element into foundation
+* Lower pivot slides
+  * prepare to go under bridge
+* Go backwards 24 inches
+  * under bridge to score points
+  * At: (5.5, 3.5)
+  
+End state:
+* Robot is facing north at (5.5, 3.5)
+
