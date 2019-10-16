@@ -143,21 +143,6 @@ public class OfficialDriverControl extends OpMode {
             backRight.setPower(0);
             frontRight.setPower(0);
         }
-        //change T's
-        if (gamepad2.dpad_up){
-            degrees += 90;
-            if (degrees > 180) {
-                degrees = 0;
-            }
-            leftT.setPosition(degrees);
-        }
-        if (gamepad2.dpad_up){
-            degrees += 90;
-            if (degrees > 180) {
-                degrees = 0;
-            }
-            rightT.setPosition(degrees);
-        }
         //pivot intake up
         if (gamepad2.dpad_up) {
             leftPivotIntake.setPower(.2);
