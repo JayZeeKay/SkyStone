@@ -8,21 +8,12 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 @TeleOp(name="Driver Control")
 public class test extends OpMode {
+    
+    DcMotor backLeft, backRight, frontLeft, frontRight,
+            leftLift, rightLift,
+            leftPivotIntake, rightPivotIntake;
 
-
-    DcMotor backLeft;
-    DcMotor backRight;
-    DcMotor frontLeft;
-    DcMotor frontRight;
-    DcMotor leftLift;
-    DcMotor rightLift;
-    DcMotor leftPivotIntake;
-    DcMotor rightPivotIntake;
-
-    float leftY=0;
-    float rightY=0;
-    float rightX=0;
-    float leftX=0;
+    float leftY, rightY, rightX, leftX = 0;
 
     Servo pinch;
 
