@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 @TeleOp(name="Driver Control")
 public class test extends OpMode {
-    
+
     DcMotor backLeft, backRight, frontLeft, frontRight,
             leftLift, rightLift,
             leftPivotIntake, rightPivotIntake;
@@ -47,6 +47,7 @@ public class test extends OpMode {
         int degrees = 0;
         int open = 90;
         int close = 0;
+        int stop = 0;
         leftY = gamepad1.left_stick_y;
         leftX = gamepad1.left_stick_x;
         rightY = gamepad1.right_stick_y;
@@ -71,16 +72,16 @@ public class test extends OpMode {
             frontRight.setPower(rightY);
             backRight.setPower(rightY);
         } else {
-            frontRight.setPower(0);
-            backRight.setPower(0);
+            frontRight.setPower(stop);
+            backRight.setPower(stop);
         }
 
         if (Math.abs(leftY) > .1) {
             frontLeft.setPower(leftY);
             backLeft.setPower(leftY);
         } else {
-            frontLeft.setPower(0);
-            backLeft.setPower(0);
+            frontLeft.setPower(stop);
+            backLeft.setPower(stop);
         }
         //strafe left
         /*
@@ -119,16 +120,16 @@ public class test extends OpMode {
             leftLift.setPower(.5);
             rightLift.setPower(.5);
         } else {
-            leftLift.setPower(0);
-            rightLift.setPower(0);
+            leftLift.setPower(stop);
+            rightLift.setPower(stop);
         }
         //down lift
         if (gamepad2.a){
             leftLift.setPower(-.5);
             rightLift.setPower(-.5);
         } else {
-            leftLift.setPower(0);
-            rightLift.setPower(0);
+            leftLift.setPower(stop);
+            rightLift.setPower(stop);
         }
         //pivot turn right
         if (gamepad1.right_trigger > .1){
@@ -137,10 +138,10 @@ public class test extends OpMode {
             backRight.setPower(-.5);
             frontRight.setPower(-.5);
         } else {
-            backLeft.setPower(0);
-            frontLeft.setPower(0);
-            backRight.setPower(0);
-            frontRight.setPower(0);
+            backLeft.setPower(stop);
+            frontLeft.setPower(stop);
+            backRight.setPower(stop);
+            frontRight.setPower(stop);
         }
         //pivot turn left
         if (gamepad1.left_trigger > .1){
@@ -149,26 +150,26 @@ public class test extends OpMode {
             backRight.setPower(.5);
             frontRight.setPower(.5);
         } else {
-            backLeft.setPower(0);
-            frontLeft.setPower(0);
-            backRight.setPower(0);
-            frontRight.setPower(0);
+            backLeft.setPower(stop);
+            frontLeft.setPower(stop);
+            backRight.setPower(stop);
+            frontRight.setPower(stop);
         }
         //pivot intake up
         if (gamepad2.dpad_up) {
             leftPivotIntake.setPower(.2);
             rightPivotIntake.setPower(.2);
         } else {
-            leftPivotIntake.setPower(0);
-            rightPivotIntake.setPower(0);
+            leftPivotIntake.setPower(stop);
+            rightPivotIntake.setPower(stop);
         }
         //pivot intake down
         if (gamepad2.dpad_down) {
             leftPivotIntake.setPower(-.2);
             rightPivotIntake.setPower(-.2);
         } else {
-            leftPivotIntake.setPower(0);
-            rightPivotIntake.setPower(0);
+            leftPivotIntake.setPower(stop);
+            rightPivotIntake.setPower(stop);
         }
     }
 }
