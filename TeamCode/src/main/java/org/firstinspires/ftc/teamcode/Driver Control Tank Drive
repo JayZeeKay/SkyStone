@@ -19,6 +19,11 @@ public class test extends OpMode {
     DcMotor leftPivotIntake;
     DcMotor rightPivotIntake;
 
+    float leftY=0;
+    float rightY=0;
+    float rightX=0;
+    float leftX=0;
+
     Servo pinch;
 
     @Override
@@ -51,6 +56,10 @@ public class test extends OpMode {
         int degrees = 0;
         int open = 90;
         int close = 0;
+        leftY = gamepad1.left_stick_y;
+        leftX = gamepad1.left_stick_x;
+        rightY = gamepad1.right_stick_y;
+        rightX = gamepad1.right_stick_x;
         /*
         //move forward
         if (gamepad1.left_stick_y < -.1) {
@@ -67,17 +76,17 @@ public class test extends OpMode {
             frontRight.setPower(-gamepad1.right_stick_y);
         }
         */
-        if (Math.abs(gamepad1.right_stick_y) > .1) {
-            frontRight.setPower(gamepad1.right_stick_y);
-            backRight.setPower(gamepad1.right_stick_y);
+        if (Math.abs(rightY) > .1) {
+            frontRight.setPower(rightY);
+            backRight.setPower(rightY);
         } else {
             frontRight.setPower(0);
             backRight.setPower(0);
         }
 
-        if (Math.abs(gamepad1.left_stick_y) > .1) {
-            frontLeft.setPower(gamepad1.left_stick_y);
-            backLeft.setPower(gamepad1.left_stick_y);
+        if (Math.abs(leftY) > .1) {
+            frontLeft.setPower(leftY);
+            backLeft.setPower(leftY);
         } else {
             frontLeft.setPower(0);
             backLeft.setPower(0);
