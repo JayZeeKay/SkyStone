@@ -156,16 +156,16 @@ public class driverControlTest extends OpMode {
         }
         //pivot intake up
         if (gamepad2.dpad_up) {
-            leftPivotIntake.setPower(.2);
-            rightPivotIntake.setPower(.2);
+            leftPivotIntake.setPower(-.6);
+            rightPivotIntake.setPower(.6);
         } else {
             leftPivotIntake.setPower(0);
             rightPivotIntake.setPower(0);
         }
         //pivot intake down
         if (gamepad2.dpad_down) {
-            leftPivotIntake.setPower(-.2);
-            rightPivotIntake.setPower(-.2);
+            leftPivotIntake.setPower(.6);
+            rightPivotIntake.setPower(-.6);
         } else {
             leftPivotIntake.setPower(0);
             rightPivotIntake.setPower(0);
