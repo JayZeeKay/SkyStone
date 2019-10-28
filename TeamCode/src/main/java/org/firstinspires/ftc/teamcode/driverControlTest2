@@ -81,8 +81,8 @@ public class driverControlTest2 extends OpMode {
         }
 
         if (Math.abs(gamepad1.left_stick_y) > .1) {
-            frontLeft.setPower(gamepad1.left_stick_y);//robot goes up and down using left stick BASE
-            backLeft.setPower(gamepad1.left_stick_y);
+            frontLeft.setPower(-gamepad1.left_stick_y);//robot goes up and down using left stick BASE
+            backLeft.setPower(-gamepad1.left_stick_y);
         } else {
             frontLeft.setPower(0);//robot is not moving
             backLeft.setPower(0);
@@ -138,6 +138,7 @@ public class driverControlTest2 extends OpMode {
             leftLift.setPower(0);
             rightLift.setPower(0);
         }
+        /*
         //pivot turn right
         if (gamepad1.right_trigger > .1){
             backLeft.setPower(.5);
@@ -162,6 +163,7 @@ public class driverControlTest2 extends OpMode {
             backRight.setPower(0);
             frontRight.setPower(0);
         }
+        */
         //pivot intake up
         if (gamepad2.dpad_up) {
             leftPivotIntake.setPower(-.6);
