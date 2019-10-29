@@ -1,0 +1,203 @@
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.Servo;
+
+@TeleOp(name="TeleOP test")
+public class driverControlTest3 extends OpMode {
+
+    DcMotor backRight;
+    DcMotor frontLeft;
+    DcMotor frontRight;
+    DcMotor backLeft;
+    DcMotor leftLift;
+    DcMotor rightLift;
+    DcMotor leftPivotIntake;
+    DcMotor rightPivotIntake;
+
+    Servo leftPinch;
+    Servo rightPinch;
+
+    @Override
+    public void init() {
+        backRight = hardwareMap.dcMotor.get("backRight");
+        frontLeft = hardwareMap.dcMotor.get("frontLeft");
+        frontRight = hardwareMap.dcMotor.get("frontRight");
+        backLeft = hardwareMap.dcMotor.get("backLeft");
+        leftLift = hardwareMap.dcMotor.get("leftLift");
+        rightLift = hardwareMap.dcMotor.get("rightLift");
+        leftPivotIntake = hardwareMap.dcMotor.get("leftPivot");
+        rightPivotIntake = hardwareMap.dcMotor.get("rightPivot");
+
+        leftPinch = hardwareMap.servo.get("leftPinch");
+        rightPinch = hardwareMap.servo.get("rightPinch");
+
+        //backLeft.setDirection(DcMotorSimple.Direction.REVERSE);
+        //frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
+
+        //pinch.setPosition(0);
+
+        //telemetry.addData("Driver Control", "Robot is Ready");
+        //telemetry.update();
+
+    }
+
+    @Override
+    public void loop() {
+
+        //change variables to actual numbers (we need to test it first)
+        int degrees = 0;
+        int open = 90;
+        int close = 0;
+
+        // tank drive right
+        /*
+        if (Math.abs(gamepad1.right_stick_y) > .1) {
+            frontRight.setPower(-gamepad1.right_stick_y);
+            backRight.setPower(-gamepad1.right_stick_y);
+        } else {
+            frontRight.setPower(0);
+            backRight.setPower(0);
+        }
+        // tank drive left
+        if (Math.abs(gamepad1.left_stick_y) > .1) {
+            frontLeft.setPower(-gamepad1.left_stick_y);
+            backLeft.setPower(-gamepad1.left_stick_y);
+        } else {
+            frontLeft.setPower(0);
+            backLeft.setPower(0);
+        }
+        */
+        /*
+        if (Math.abs(gamepad1.right_stick_y) > .1) {
+            frontRight.setPower(-gamepad1.right_stick_y);//robot right side moves using right stick BASE
+            backRight.setPower(frontRight.getPower());
+        } else {
+            frontRight.setPower(0);//robot isn't moving BASE
+            backRight.setPower(0);
+        }
+
+        if (Math.abs(gamepad1.left_stick_y) > .1) {
+            frontLeft.setPower(-gamepad1.left_stick_y);//robot left side moves using left stick BASE
+            backLeft.setPower(frontLeft.getPower());
+        } else {
+            frontLeft.setPower(0);//robot is not moving
+            backLeft.setPower(0);
+        }
+        */
+        if (Math.abs(gamepad1.right_stick_y) > .1) {
+            frontRight.setPower(-gamepad1.right_stick_y);//robot goes right and left using right stick BASE
+            backRight.setPower(-gamepad1.right_stick_y);
+        } else {
+            frontRight.setPower(0);//robot isn't moving BASE
+            backRight.setPower(0);
+        }
+
+        if (Math.abs(gamepad1.left_stick_y) > .1) {
+            frontLeft.setPower(gamepad1.left_stick_y);//robot goes up and down using left stick BASE
+            backLeft.setPower(gamepad1.left_stick_y);
+        } else {
+            frontLeft.setPower(0);//robot is not moving
+            backLeft.setPower(0);
+        }
+        /*
+        //strafe left
+        if (gamepad1.dpad_left){
+            backLeft.setPower(.5);
+            frontLeft.setPower(-.5);
+            backRight.setPower(-.5);
+            frontRight.setPower(.5);
+        } else {
+            backLeft.setPower(0);
+            frontLeft.setPower(0);
+            backRight.setPower(0);
+            frontRight.setPower(0);
+        }
+
+        //strafe right
+        if (gamepad1.dpad_right){
+            backLeft.setPower(-.5);
+            frontLeft.setPower(.5);
+            backRight.setPower(.5);
+            frontRight.setPower(-.5);
+        } else {
+            backLeft.setPower(0);
+            frontLeft.setPower(0);
+            backRight.setPower(0);
+            frontRight.setPower(0);
+        }
+        /*
+        */
+         */
+        // worked when i commented this all out...
+        //intake open
+        if (gamepad2.right_bumper) {
+            leftPinch.setPosition(open);
+            rightPinch.setPosition(close);
+        }
+
+        if (gamepad2.left_bumper) {
+            leftPinch.setPosition(close);
+            rightPinch.setPosition(open);
+        }
+        //up lift
+        if (gamepad2.b) {
+            leftLift.setPower(.5);
+            rightLift.setPower(.5);
+        } else {
+            leftLift.setPower(0);
+            rightLift.setPower(0);
+        }
+        //down lift
+        if (gamepad2.a){
+            leftLift.setPower(-.5);
+            rightLift.setPower(-.5);
+        } else {
+            leftLift.setPower(0);
+            rightLift.setPower(0);
+        }
+        //pivot turn right
+        /*if (gamepad1.right_trigger > .1){
+            backLeft.setPower(.5);
+            frontLeft.setPower(.5);
+            backRight.setPower(-.5);
+            frontRight.setPower(-.5);
+        } else {
+            backLeft.setPower(0);
+            frontLeft.setPower(0);
+            backRight.setPower(0);
+            frontRight.setPower(0);
+        }
+        //pivot turn left
+        if (gamepad1.left_trigger > .1){
+            backLeft.setPower(-.5);
+            frontLeft.setPower(-.5);
+            backRight.setPower(.5);
+            frontRight.setPower(.5);
+        } else {
+            backLeft.setPower(0);
+            frontLeft.setPower(0);
+            backRight.setPower(0);
+            frontRight.setPower(0);
+        }*/
+        /*
+        //pivot intake up
+        if (gamepad2.dpad_up) {
+            leftPivotIntake.setPower(-.6);
+            rightPivotIntake.setPower(.6);
+        } else {
+            leftPivotIntake.setPower(0);
+            rightPivotIntake.setPower(0);
+        }
+        //pivot intake down
+        if (gamepad2.dpad_down) {
+            leftPivotIntake.setPower(.6);
+            rightPivotIntake.setPower(-.6);
+        } else {
+            leftPivotIntake.setPower(0);
+            rightPivotIntake.setPower(0);
+        }
+         */
+    }
+}
