@@ -1,0 +1,134 @@
+package org.firstinspires.ftc.robotcontroller.internal;
+
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.Servo;
+
+   /*
+    author: Jacob Marinas
+    date: 10/31/19
+    summary:
+    */
+
+@Autonomous (name="Autonomous Tests")
+public class AutonomousPRTests extends LinearOpMode {
+    DcMotor backLeft;
+    DcMotor backRight;
+    DcMotor frontLeft;
+    DcMotor frontRight;
+    DcMotor lift;
+    DcMotor leftPivot;
+    DcMotor rightPivot;
+
+    Servo leftPinch;
+    Servo rightPinch;
+
+    double TICKS_PER_IN = 1120 / (4 * Math.PI);
+
+    public void encoderDrive(double inches, double leftPower, double rightPower) {
+        frontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        frontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        int leftWheelDistance = frontLeft.getCurrentPosition() + (int) (TICKS_PER_IN * inches);
+        int rightWheelDistance = frontRight.getCurrentPosition() + (int) (TICKS_PER_IN * inches);
+
+        telemetry.addData("leftWheelDistance", leftWheelDistance);
+        telemetry.addData("rigthWheelDistance", rightWheelDistance);
+        updateTelemetry(telemetry);
+        telemetry.update();
+
+
+        sleep(3000);
+        frontRight.setTargetPosition(rightWheelDistance);
+        frontLeft.setTargetPosition(leftWheelDistance);
+
+        while (-(Math.abs(frontLeft.getCurrentPosition())) < leftWheelDistance ||
+                Math.abs(frontRight.getCurrentPosition()) < rightWheelDistance) {
+
+            frontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            frontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+            frontLeft.setPower(leftPower);
+            frontRight.setPower(rightPower);
+
+            backLeft.setPower(leftPower);
+            backRight.setPower(rightPower);
+
+            telemetry.addData("leftWheelDistance", -leftWheelDistance);
+            telemetry.addData("rigthWheelDistance", rightWheelDistance);
+            telemetry.addData("Left Enc ", frontLeft.getCurrentPosition());
+            telemetry.addData("Right Enc ", frontRight.getCurrentPosition());
+            telemetry.addData("rightPower: ", rightPower);
+            telemetry.addData("frontRight Power: ", frontRight.getPower());
+            updateTelemetry(telemetry);
+            telemetry.update();
+        }
+        telemetry.addData("hi", 1);
+        updateTelemetry(telemetry);
+        telemetry.update();
+
+        frontLeft.setPower(0);
+        frontRight.setPower(0);
+        backLeft.setPower(0);
+        backRight.setPower(0);
+
+        telemetry.addData("bye", 1);
+        updateTelemetry(telemetry);
+        telemetry.update();
+
+    }
+
+    @Override
+    public void runOpMode() throws InterruptedException {
+        backLeft = hardwareMap.dcMotor.get("backLeft");
+        backRight = hardwareMap.dcMotor.get("backRight");
+        frontLeft = hardwareMap.dcMotor.get("frontLeft");
+        frontRight = hardwareMap.dcMotor.get("frontRight");
+        lift = hardwareMap.dcMotor.get("leftLift");
+        leftPivot = hardwareMap.dcMotor.get("leftPivot");
+        rightPivot = hardwareMap.dcMotor.get("rightPivot");
+
+        leftPinch = hardwareMap.servo.get("leftPinch");
+        rightPinch = hardwareMap.servo.get("rightPinch");
+
+        backLeft.setDirection(DcMotorSimple.Direction.REVERSE);
+        frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
+
+        leftPinch.setPosition(0);
+        rightPinch.setPosition(180);
+
+        telemetry.addData("Autonomous", "Robot is Ready");
+        telemetry.update();
+
+        waitForStart();
+
+        //move forward 24 inches
+        encoderDrive(36,.5,.5);
+
+        sleep(3000);
+
+        encoderDrive(36, 1, 1);
+
+        sleep(3000);
+
+        encoderDrive(6, .5, .5);
+
+        sleep(3000);
+
+        encoderDrive(6, 1, 1);
+
+
+       /*
+
+       /*
+       when speed is set to .5, the motors besides frontRight are still moving at full speed
+       when speed is set to 1, all motors stop, but frontRight stop immediately, while the other motors slow down
+        */
+
+
+
+    }
+}
+
