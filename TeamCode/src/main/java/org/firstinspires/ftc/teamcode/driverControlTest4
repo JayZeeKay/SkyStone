@@ -9,7 +9,6 @@ import com.qualcomm.robotcore.hardware.Servo;
 @TeleOp(name="Driver Control Tests")
 public class driverControlTest4 extends OpMode {
 
-
     DcMotor backLeft;
     DcMotor backRight;
     DcMotor frontLeft;
@@ -37,10 +36,16 @@ public class driverControlTest4 extends OpMode {
         backLeft.setDirection(DcMotorSimple.Direction.REVERSE);
         frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
 
-        leftPinch.setPosition(0);
-        rightPinch.setPosition(180);
+        frontLeft.setPower(0);
+        frontRight.setPower(0);
+        backLeft.setPower(0);
+        backRight.setPower(0);
+
+        /*leftPinch.setPosition(0);
+        rightPinch.setPosition(180);*/
 
         telemetry.addData("Driver Control", "Robot is Ready");
+        updateTelemetry(telemetry);
         telemetry.update();
 
     }
@@ -50,7 +55,7 @@ public class driverControlTest4 extends OpMode {
 
         //change variables to actual numbers (we need to test it first)
         int degrees = 0;
-        int open = 90;
+        int open = 180;
         int close = 0;
 
         telemetry.addData("right_stick_y: ", gamepad1.right_stick_y);
@@ -89,10 +94,15 @@ public class driverControlTest4 extends OpMode {
         }
 
         if (gamepad1.dpad_left) {
-            frontLeft.setPower(-.5);
-            frontRight.setPower(.5);
-            backLeft.setPower(.5);
-            backRight.setPower(-.5);
+            frontLeft.setPower(-.8);
+            frontRight.setPower(.8);
+            backLeft.setPower(.8);
+            backRight.setPower(-.8);
+
+            telemetry.addData("Strafing: ", "Left");
+            updateTelemetry(telemetry);
+            telemetry.update();
+
         } else {
             frontLeft.setPower(0);
             frontRight.setPower(0);
@@ -101,10 +111,14 @@ public class driverControlTest4 extends OpMode {
         }
 
         if (gamepad1.dpad_right) {
-            frontLeft.setPower(-.5);
-            frontRight.setPower(.5);
-            backLeft.setPower(.5);
-            backRight.setPower(-.5);
+            frontLeft.setPower(.8);
+            frontRight.setPower(-.8);
+            backLeft.setPower(-.8);
+            backRight.setPower(.8);
+
+            telemetry.addData("Strafing: ", "Left");
+            updateTelemetry(telemetry);
+            telemetry.update();
         } else {
             frontLeft.setPower(0);
             frontRight.setPower(0);
@@ -140,7 +154,7 @@ public class driverControlTest4 extends OpMode {
         */
         //intake open
         if (gamepad2.right_bumper) {
-            leftPinch.setPosition(0.5);
+            leftPinch.setPosition(close);
             rightPinch.setPosition(open);
 
             telemetry.addData("Intake: ", "closed");
@@ -149,7 +163,7 @@ public class driverControlTest4 extends OpMode {
 
         }
         if (gamepad2.left_bumper) {
-            leftPinch.setPosition(0);
+            leftPinch.setPosition(open);
             rightPinch.setPosition(close);
 
             telemetry.addData("Intake: ", "open");
@@ -213,20 +227,13 @@ public class driverControlTest4 extends OpMode {
             telemetry.addData("Pivoting: ", "Up");
             updateTelemetry(telemetry);
             telemetry.update();
-
-        } else {
-            leftPivotIntake.setPower(0);
-            rightPivotIntake.setPower(0);
-        }
-        //pivot intake down
-        if (gamepad2.dpad_down) {
+        } else if (gamepad2.dpad_down){
             leftPivotIntake.setPower(.6);
             rightPivotIntake.setPower(-.6);
 
             telemetry.addData("Pivoting: ", "Down");
             updateTelemetry(telemetry);
             telemetry.update();
-
         } else {
             leftPivotIntake.setPower(0);
             rightPivotIntake.setPower(0);
