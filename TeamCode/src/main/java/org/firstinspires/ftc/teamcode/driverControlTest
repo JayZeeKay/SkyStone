@@ -53,6 +53,8 @@ public class driverControlTest extends OpMode {
         int open = 180;
         int close = 0;
 
+        telemetry.addData("leftPinch: ", leftPinch.getPosition());
+        telemetry.addData("rightPinch: ", rightPinch.getPosition());
         telemetry.addData("right_stick_y: ", gamepad1.right_stick_y);
         telemetry.addData("left_stick_y: ", gamepad1.left_stick_y);
         telemetry.addData("Intake: ", "open");
@@ -142,7 +144,9 @@ public class driverControlTest extends OpMode {
         if (gamepad2.right_bumper) {
             leftPinch.setPosition(close);
             rightPinch.setPosition(open);
-
+            
+            telemetry.addData("leftPinch: ", leftPinch.getPosition());
+            telemetry.addData("rightPinch: ", rightPinch.getPosition());
             telemetry.addData("Open: ", open);
             telemetry.addData("Close: ", close);
             telemetry.addData("Intake: ", "closed");
@@ -153,7 +157,9 @@ public class driverControlTest extends OpMode {
         if (gamepad2.left_bumper) {
             leftPinch.setPosition(open);
             rightPinch.setPosition(close);
-
+            
+            telemetry.addData("leftPinch: ", leftPinch.getPosition());
+            telemetry.addData("rightPinch: ", rightPinch.getPosition());
             telemetry.addData("Open: ", open);
             telemetry.addData("Close: ", close);
             telemetry.addData("Intake: ", "closed");
