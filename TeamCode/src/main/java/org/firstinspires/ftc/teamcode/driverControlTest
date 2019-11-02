@@ -50,7 +50,7 @@ public class driverControlTest extends OpMode {
 
         //change variables to actual numbers (we need to test it first)
         int degrees = 0;
-        int open = 180;
+        double open = 180;
         int close = 0;
 
         telemetry.addData("leftPinch: ", leftPinch.getPosition());
@@ -141,31 +141,22 @@ public class driverControlTest extends OpMode {
         }
         */
         //intake open
-        if (gamepad2.right_bumper) {
-            leftPinch.setPosition(close);
+
+        if (gamepad2.y) {
             rightPinch.setPosition(open);
+            leftPinch.setPosition(close);
 
-            telemetry.addData("leftPinch: ", leftPinch.getPosition());
-            telemetry.addData("rightPinch: ", rightPinch.getPosition());
-            telemetry.addData("Open: ", open);
-            telemetry.addData("Close: ", close);
-            telemetry.addData("Intake: ", "closed");
+            telemetry.addData("servo", "open");
             updateTelemetry(telemetry);
             telemetry.update();
-
         }
-        if (gamepad2.left_bumper) {
-            leftPinch.setPosition(open);
+        if (gamepad2.x) {
             rightPinch.setPosition(close);
+            leftPinch.setPosition(open);
 
-            telemetry.addData("leftPinch: ", leftPinch.getPosition());
-            telemetry.addData("rightPinch: ", rightPinch.getPosition());
-            telemetry.addData("Open: ", open);
-            telemetry.addData("Close: ", close);
-            telemetry.addData("Intake: ", "closed");
+            telemetry.addData("servo", "close");
             updateTelemetry(telemetry);
             telemetry.update();
-
         }
         //up lift
         if (gamepad2.b) {
