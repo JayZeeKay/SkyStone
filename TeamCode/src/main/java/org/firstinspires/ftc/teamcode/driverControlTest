@@ -37,8 +37,8 @@ public class driverControlTest extends OpMode {
         backLeft.setDirection(DcMotorSimple.Direction.REVERSE);
         frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
 
-        leftPinch.setPosition(0);
-        rightPinch.setPosition(180);
+        /*leftPinch.setPosition(0);
+        rightPinch.setPosition(180);*/
 
         telemetry.addData("Driver Control", "Robot is Ready");
         telemetry.update();
@@ -144,7 +144,7 @@ public class driverControlTest extends OpMode {
         if (gamepad2.right_bumper) {
             leftPinch.setPosition(close);
             rightPinch.setPosition(open);
-            
+
             telemetry.addData("leftPinch: ", leftPinch.getPosition());
             telemetry.addData("rightPinch: ", rightPinch.getPosition());
             telemetry.addData("Open: ", open);
@@ -157,7 +157,7 @@ public class driverControlTest extends OpMode {
         if (gamepad2.left_bumper) {
             leftPinch.setPosition(open);
             rightPinch.setPosition(close);
-            
+
             telemetry.addData("leftPinch: ", leftPinch.getPosition());
             telemetry.addData("rightPinch: ", rightPinch.getPosition());
             telemetry.addData("Open: ", open);
@@ -241,5 +241,8 @@ public class driverControlTest extends OpMode {
             leftPivotIntake.setPower(0);
             rightPivotIntake.setPower(0);
         }
+
+        //servos
+
     }
 }
