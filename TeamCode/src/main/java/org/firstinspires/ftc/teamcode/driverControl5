@@ -2,6 +2,7 @@ package org.firstinspires.ftc.robotcontroller.internal;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -13,10 +14,7 @@ public class driverControl5 extends OpMode {
             lift,
             leftPivotIntake, rightPivotIntake;
 
-    Servo leftPinch, rightPinch;
-
-    public int open = 180;
-    public int close = 0;
+    CRServo leftPinch, rightPinch;
 
     @Override
     public void init() {
@@ -28,8 +26,8 @@ public class driverControl5 extends OpMode {
         leftPivotIntake = hardwareMap.dcMotor.get("leftPivot");
         rightPivotIntake = hardwareMap.dcMotor.get("rightPivot");
 
-        leftPinch = hardwareMap.servo.get("leftPinch");
-        rightPinch = hardwareMap.servo.get("rightPinch");
+        leftPinch = hardwareMap.get(CRServo.class, "leftPinch");
+        rightPinch = hardwareMap.get(CRServo.class, "rightPinch");
 
         backLeft.setDirection(DcMotorSimple.Direction.REVERSE);
         frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -52,8 +50,22 @@ public class driverControl5 extends OpMode {
     public void loop() {
 
         //change variables to actual numbers (we need to test it first)
-        int open = 180;
-        int close = 0;
+        double open = 0.4;
+        double close = -0.4;
+        int leftSide = 0;
+        int rightSide = 0;
+        int lift = 0;
+        
+        /* variables for state of robot:
+        / / / / -1 / / / / 0 / / / / 1 / / / /
+        leftSide: backwards, neutral, forwards
+        rightSide: backwards, neutral, forwards
+        lift: down, neutral, up
+        intake: open, neutral, closed
+        pivot: down, neutral, up
+        strafe: left, neutral, right
+         */
+        //int leftSide, rightSide, lift, intake, pivot, strafe;
 
         telemetry.addData("right_stick_y: ", gamepad1.right_stick_y);
         telemetry.addData("left_stick_y: ", gamepad1.left_stick_y);
@@ -122,10 +134,10 @@ public class driverControl5 extends OpMode {
             backLeft.setPower(0);
             backRight.setPower(0);
         }
-       
+
         if (gamepad2.right_bumper) {
-            leftPinch.setPosition(close);
-            rightPinch.setPosition(open);
+            leftPinch.setPower(close);
+            rightPinch.setPower(open);
 
             telemetry.addData("Intake: ", "closed");
             updateTelemetry(telemetry);
@@ -133,8 +145,8 @@ public class driverControl5 extends OpMode {
 
         }
         if (gamepad2.left_bumper) {
-            leftPinch.setPosition(open);
-            rightPinch.setPosition(close);
+            leftPinch.setPower(open);
+            rightPinch.setPower(close);
 
             telemetry.addData("Intake: ", "open");
             updateTelemetry(telemetry);
@@ -148,7 +160,6 @@ public class driverControl5 extends OpMode {
             telemetry.addData("Lifting: ", "Up");
             updateTelemetry(telemetry);
             telemetry.update();
-
         } else {
             lift.setPower(0);
         }
@@ -163,7 +174,7 @@ public class driverControl5 extends OpMode {
         } else {
             lift.setPower(0);
         }
-        
+
         //pivot intake up
         if (gamepad2.dpad_up) {
             leftPivotIntake.setPower(-.6);
@@ -184,4 +195,27 @@ public class driverControl5 extends OpMode {
             rightPivotIntake.setPower(0);
         }
     }
+
+    /* variales for state of robot:
+        / / / / -1 / / / / 0 / / / / 1 / / / /
+        leftSide: backwards, neutral, forwards
+        rightSide: backwards, neutral, forwards
+        lift: down, neutral, up
+        intake: open, neutral, closed
+        pivot: down, neutral, up
+        strafe: left, neutral, right
+    */
+    /*
+    public void robotStatus(){
+        telemetry.addData("leftSide: ", leftSideS);
+        telemetry.addData("rightSide: ", rightSideS);
+        telemetry.addData("lift: ", liftS);
+        telemetry.addData("intake: ", intakeS);
+        telemetry.addData("pivot: ", pivotS);
+        telemetry.addData("strafe: ", strafeS);
+        updateTelemetry(telemetry);
+        telemetry.update();
+    }
+
+     */
 }
