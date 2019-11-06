@@ -1,0 +1,249 @@
+package org.firstinspires.ftc.robotcontroller.internal;
+
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.CRServo;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.Servo;
+
+@TeleOp(name="Driver Control telemetry")
+public class driverControlTest5 extends OpMode {
+
+    DcMotor backLeft, backRight, frontLeft, frontRight,
+            lift,
+            leftPivotIntake, rightPivotIntake;
+
+    CRServo leftPinch, rightPinch;
+
+    int leftSideStatus, rightSideStatus,
+            liftStatus,
+            intakeStatus,
+            pivotStatus,
+            strafeStatus;
+
+    @Override
+    public void init() {
+        backLeft = hardwareMap.dcMotor.get("backLeft");
+        backRight = hardwareMap.dcMotor.get("backRight");
+        frontLeft = hardwareMap.dcMotor.get("frontLeft");
+        frontRight = hardwareMap.dcMotor.get("frontRight");
+        lift = hardwareMap.dcMotor.get("leftLift");
+        leftPivotIntake = hardwareMap.dcMotor.get("leftPivot");
+        rightPivotIntake = hardwareMap.dcMotor.get("rightPivot");
+
+        leftPinch = hardwareMap.get(CRServo.class, "leftPinch");
+        rightPinch = hardwareMap.get(CRServo.class, "rightPinch");
+
+        backLeft.setDirection(DcMotorSimple.Direction.REVERSE);
+        frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
+
+        frontLeft.setPower(0);
+        frontRight.setPower(0);
+        backLeft.setPower(0);
+        backRight.setPower(0);
+
+        /*leftPinch.setPosition(0);
+        rightPinch.setPosition(180);*/
+
+        telemetry.addData("Driver Control", "Robot is Ready");
+        updateTelemetry(telemetry);
+        telemetry.update();
+
+    }
+
+    @Override
+    public void loop() {
+
+        //change variables to actual numbers (we need to test it first)
+        double open = 0.4;
+        double close = -0.4;
+
+        /* variables for state of robot:
+        / / / / -1 / / / / 0 / / / / 1 / / / /
+        leftSide: backwards, neutral, forwards
+        rightSide: backwards, neutral, forwards
+        lift: down, neutral, up
+        intake: open, neutral, closed
+        pivot: down, neutral, up
+        strafe: left, neutral, right
+         */
+
+        //robotStatus();
+
+        // tank drive right
+        if (Math.abs(gamepad1.right_stick_y) > .1) {
+            frontRight.setPower(-gamepad1.right_stick_y);
+            backRight.setPower(-gamepad1.right_stick_y);
+
+            if (gamepad1.right_stick_y >= .1) {
+                rightSideStatus = 1;
+            } else if (gamepad1.right_stick_y <= -.1) {
+                rightSideStatus = -1;
+            } else {
+                rightSideStatus = 0;
+            }
+            robotStatus();
+        } else {
+            frontRight.setPower(0);
+            backRight.setPower(0);
+
+            rightSideStatus = 0;
+        }
+        // tank drive left
+        if (Math.abs(gamepad1.left_stick_y) > .1) {
+            frontLeft.setPower(-gamepad1.left_stick_y);
+            backLeft.setPower(-gamepad1.left_stick_y);
+
+            if (gamepad1.left_stick_y >= .1) {
+                leftSideStatus = 1;
+            } else if (gamepad1.left_stick_y <= -.1) {
+                leftSideStatus = -1;
+            } else {
+                leftSideStatus = 0;
+            }
+            robotStatus();
+        } else {
+            frontLeft.setPower(0);
+            backLeft.setPower(0);
+
+            leftSideStatus = 0;
+        }
+
+        if (gamepad2.b) {
+            lift.setPower(.5);
+
+            liftStatus = 1;
+            robotStatus();
+        } else {
+            lift.setPower(0);
+
+            liftStatus = 0;
+        }
+        //down lift
+        if (gamepad2.a) {
+            lift.setPower(-.5);
+
+            liftStatus = -1;
+            robotStatus();
+        } else {
+            lift.setPower(0);
+
+            liftStatus = 0;
+        }
+        // strafing left
+        if (gamepad1.dpad_left) {
+            frontLeft.setPower(-.8);
+            frontRight.setPower(.8);
+            backLeft.setPower(.8);
+            backRight.setPower(-.8);
+
+            strafeStatus = -1;
+            robotStatus();
+
+        } else {
+            frontLeft.setPower(0);
+            frontRight.setPower(0);
+            backLeft.setPower(0);
+            backRight.setPower(0);
+
+            strafeStatus = 0;
+        }
+        // strafing right
+        if (gamepad1.dpad_right) {
+            frontLeft.setPower(.8);
+            frontRight.setPower(-.8);
+            backLeft.setPower(-.8);
+            backRight.setPower(.8);
+
+            strafeStatus = 1;
+            robotStatus();
+        } else {
+            frontLeft.setPower(0);
+            frontRight.setPower(0);
+            backLeft.setPower(0);
+            backRight.setPower(0);
+
+            strafeStatus = 0;
+        }
+
+        if (gamepad2.right_bumper) {
+            leftPinch.setPower(close);
+            rightPinch.setPower(open);
+
+            intakeStatus = -1;
+            robotStatus();
+        } else {
+
+            intakeStatus = 0;
+        }
+        if (gamepad2.left_bumper) {
+            leftPinch.setPower(open);
+            rightPinch.setPower(close);
+
+            intakeStatus = 1;
+            robotStatus();
+        } else {
+
+            intakeStatus = 0;
+        }
+        //up lift
+
+        //pivot intake up
+        if (gamepad2.dpad_up) {
+            leftPivotIntake.setPower(-.6);
+            rightPivotIntake.setPower(.6);
+
+            pivotStatus = 1;
+            robotStatus();
+
+        } else if (gamepad2.dpad_down) {
+            leftPivotIntake.setPower(.6);
+            rightPivotIntake.setPower(-.6);
+
+            pivotStatus = -1;
+            robotStatus();
+        } else {
+            leftPivotIntake.setPower(0);
+            rightPivotIntake.setPower(0);
+
+            pivotStatus = 0;
+        }
+
+
+    }
+
+
+    /* variales for state of robot:
+        / / / / -1 / / / / 0 / / / / 1 / / / /
+        leftSide: backwards, neutral, forwards
+        rightSide: backwards, neutral, forwards
+        lift: down, neutral, up
+        intake: open, neutral, closed
+        pivot: down, neutral, up
+        strafe: left, neutral, right
+    */
+
+    public void robotStatus() {
+        switch (leftSideStatus) {
+            case -1:
+                telemetry.addData("leftSide: ", "Backwards");
+                break;
+            case 0:
+                telemetry.addData("leftSide: ", "Neutral");
+                break;
+            case 1:
+                telemetry.addData("leftSide: ", "Forwards");
+                break;
+        }
+
+        //telemetry.addData("leftSide: ", leftSideStatus);
+        telemetry.addData("rightSide: ", rightSideStatus);
+        telemetry.addData("lift: ", liftStatus);
+        telemetry.addData("intake: ", intakeStatus);
+        telemetry.addData("pivot: ", pivotStatus);
+        telemetry.addData("strafe: ", strafeStatus);
+        updateTelemetry(telemetry);
+        telemetry.update();
+    }
+}
