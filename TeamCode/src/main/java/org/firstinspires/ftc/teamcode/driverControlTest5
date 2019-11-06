@@ -69,7 +69,7 @@ public class driverControlTest5 extends OpMode {
         strafe: left, neutral, right
          */
 
-        //robotStatus();
+        robotStatus();
 
         // tank drive right
         if (Math.abs(gamepad1.right_stick_y) > .1) {
@@ -227,22 +227,79 @@ public class driverControlTest5 extends OpMode {
     public void robotStatus() {
         switch (leftSideStatus) {
             case -1:
-                telemetry.addData("leftSide: ", "Backwards");
+                telemetry.addData("leftSide: ", "Forwards");
                 break;
             case 0:
                 telemetry.addData("leftSide: ", "Neutral");
                 break;
             case 1:
-                telemetry.addData("leftSide: ", "Forwards");
+                telemetry.addData("leftSide: ", "Backwards");
                 break;
         }
 
+        switch (rightSideStatus) {
+            case -1:
+                telemetry.addData("rightSide: ", "Forwards");
+                break;
+            case 0:
+                telemetry.addData("rightSide: ", "Neutral");
+                break;
+            case 1:
+                telemetry.addData("rightSide: ", "Backwards");
+                break;
+        }
+
+        switch (liftStatus) {
+            case -1:
+                telemetry.addData("lift: ", "Down");
+                break;
+            case 0:
+                telemetry.addData("lift: ", "Neutral");
+                break;
+            case 1:
+                telemetry.addData("lift: ", "Up");
+        }
+
+        switch (intakeStatus) {
+            case -1:
+                telemetry.addData("intake: ", "Open");
+                break;
+            case 0:
+                telemetry.addData("intake: ", "Neutral");
+                break;
+            case 1:
+                telemetry.addData("intake: ", "Close");
+                break;
+        }
+
+        switch (pivotStatus) {
+            case -1:
+                telemetry.addData("pivot: ", "Lowered");
+                break;
+            case 0:
+                telemetry.addData("pivot: ", "Neutral");
+                break;
+            case 1:
+                telemetry.addData("pivot: ", "Raised");
+        }
+
+        switch (strafeStatus) {
+            case -1:
+                telemetry.addData("strafe: ", "Left");
+                break;
+            case 0:
+                telemetry.addData("strafe: ",  "Neutral");
+                break;
+            case 1:
+                telemetry.addData("strafe: ", "Right");
+        }
+
         //telemetry.addData("leftSide: ", leftSideStatus);
-        telemetry.addData("rightSide: ", rightSideStatus);
-        telemetry.addData("lift: ", liftStatus);
-        telemetry.addData("intake: ", intakeStatus);
-        telemetry.addData("pivot: ", pivotStatus);
-        telemetry.addData("strafe: ", strafeStatus);
+        //telemetry.addData("rightSide: ", rightSideStatus);
+        //telemetry.addData("lift: ", liftStatus);
+        //telemetry.addData("intake: ", intakeStatus);
+        //telemetry.addData("pivot: ", pivotStatus);
+        //telemetry.addData("strafe: ", strafeStatus);
         updateTelemetry(telemetry);
         telemetry.update();
     }
