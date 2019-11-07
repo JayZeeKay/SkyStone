@@ -22,6 +22,8 @@ public class driverControlTest5 extends OpMode {
             pivotStatus,
             strafeStatus;
 
+    double pivotSpeed;
+
     @Override
     public void init() {
         backLeft = hardwareMap.dcMotor.get("backLeft");
@@ -191,15 +193,15 @@ public class driverControlTest5 extends OpMode {
 
         //pivot intake up
         if (gamepad2.dpad_up) {
-            leftPivotIntake.setPower(-.6);
-            rightPivotIntake.setPower(.6);
+            leftPivotIntake.setPower(.6);
+            rightPivotIntake.setPower(-.6);
 
             pivotStatus = 1;
             robotStatus();
 
         } else if (gamepad2.dpad_down) {
-            leftPivotIntake.setPower(.6);
-            rightPivotIntake.setPower(-.6);
+            leftPivotIntake.setPower(-.3);
+            rightPivotIntake.setPower(.3);
 
             pivotStatus = -1;
             robotStatus();
@@ -208,6 +210,22 @@ public class driverControlTest5 extends OpMode {
             rightPivotIntake.setPower(0);
 
             pivotStatus = 0;
+        }
+
+        if (gamepad2.dpad_left) {
+            pivotSpeed -= 0.1;
+            if (pivotSpeed <= 0.2) {
+                pivotSpeed = 0.2;
+            }
+            robotStatus();
+        }
+
+        if (gamepad2.dpad_right) {
+            pivotSpeed += 0.1;
+            if (pivotSpeed >= 0.6) {
+                pivotSpeed = 0.6;
+            }
+            robotStatus();
         }
 
 
@@ -227,25 +245,25 @@ public class driverControlTest5 extends OpMode {
     public void robotStatus() {
         switch (leftSideStatus) {
             case -1:
-                telemetry.addData("leftSide: ", "Forwards");
+                telemetry.addData("leftSide: ", "Forwards: " + frontLeft.getPower());
                 break;
             case 0:
-                telemetry.addData("leftSide: ", "Neutral");
+                telemetry.addData("leftSide: ", "Neutral" + "0");
                 break;
             case 1:
-                telemetry.addData("leftSide: ", "Backwards");
+                telemetry.addData("leftSide: ", "Backwards: " + frontLeft.getPower());
                 break;
         }
 
         switch (rightSideStatus) {
             case -1:
-                telemetry.addData("rightSide: ", "Forwards");
+                telemetry.addData("rightSide: ", "Forwards: " + frontRight.getPower());
                 break;
             case 0:
                 telemetry.addData("rightSide: ", "Neutral");
                 break;
             case 1:
-                telemetry.addData("rightSide: ", "Backwards");
+                telemetry.addData("rightSide: ", "Backwards: " + frontRight.getPower());
                 break;
         }
 
@@ -300,6 +318,7 @@ public class driverControlTest5 extends OpMode {
         //telemetry.addData("intake: ", intakeStatus);
         //telemetry.addData("pivot: ", pivotStatus);
         //telemetry.addData("strafe: ", strafeStatus);
+        telemetry.addData("pivotSpeed: ", pivotSpeed);
         updateTelemetry(telemetry);
         telemetry.update();
     }
