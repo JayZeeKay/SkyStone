@@ -21,12 +21,10 @@ public class driverControlTest5 extends OpMode {
             intakeStatus,
             pivotStatus,
             strafeStatus;
-
-
+    
     boolean strafeToggle = false;
     boolean strafeToggle2 = false;
-
-
+    
     double pivotSpeed, strafeSpeed, liftSpeed;
 
 
@@ -59,6 +57,8 @@ public class driverControlTest5 extends OpMode {
         updateTelemetry(telemetry);
         telemetry.update();
 
+        strafeSpeed = 0.8;
+
     }
 
     @Override
@@ -67,8 +67,6 @@ public class driverControlTest5 extends OpMode {
         //change variables to actual numbers (we need to test it first)
         double open = 0.4;
         double close = -0.4;
-
-        strafeSpeed = 0.8;
 
         /* variables for state of robot:
         / / / / -1 / / / / 0 / / / / 1 / / / /
@@ -237,6 +235,8 @@ public class driverControlTest5 extends OpMode {
             robotStatus();
         }
         */
+        
+        
         if (!strafeToggle) {
             if (gamepad1.dpad_down) {
                 strafeSpeed -= 0.1;
@@ -269,8 +269,6 @@ public class driverControlTest5 extends OpMode {
                 strafeToggle2 = false;
             }
         }
-
-
     }
 
 
