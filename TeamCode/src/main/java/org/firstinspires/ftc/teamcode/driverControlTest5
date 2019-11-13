@@ -21,10 +21,10 @@ public class driverControlTest5 extends OpMode {
             intakeStatus,
             pivotStatus,
             strafeStatus;
-    
+
     boolean strafeToggle = false;
     boolean strafeToggle2 = false;
-    
+
     double pivotSpeed, strafeSpeed, liftSpeed;
 
 
@@ -117,6 +117,14 @@ public class driverControlTest5 extends OpMode {
             backLeft.setPower(0);
 
             leftSideStatus = 0;
+        }
+
+        if (gamepad1.x) {
+            strafeSpeed = 1;
+        }
+
+        if (gamepad1.y) {
+            strafeSpeed = .4;
         }
 
         if (gamepad2.b) {
@@ -235,8 +243,8 @@ public class driverControlTest5 extends OpMode {
             robotStatus();
         }
         */
-        
-        
+
+        /*
         if (!strafeToggle) {
             if (gamepad1.dpad_down) {
                 strafeSpeed -= 0.1;
@@ -269,6 +277,8 @@ public class driverControlTest5 extends OpMode {
                 strafeToggle2 = false;
             }
         }
+        */
+
     }
 
 
