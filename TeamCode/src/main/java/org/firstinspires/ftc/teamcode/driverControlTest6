@@ -67,6 +67,10 @@ public class driverControlTest6 extends OpMode {
         close = -0.4;
     }
 
+    public void start() {
+        runtime.reset();
+    }
+
     @Override
     public void loop() {
 
@@ -236,7 +240,7 @@ public class driverControlTest6 extends OpMode {
 
         switch (leftSideStatus) {
             case -1:
-                telemetry.addData("leftSide: ", "Forwards: " + rightSideSpeed);
+                telemetry.addData("leftSide: ", "Forwards: " + fL);
                 break;
             case 0:
                 telemetry.addData("leftSide: ", "Neutral" + "0");
