@@ -59,7 +59,7 @@ public class driverControlTest6 extends OpMode {
         updateTelemetry(telemetry);
         telemetry.update();
 
-        baseSpeed = 1;
+        baseSpeed = .5;
         strafeSpeed = 0.8;
         pivotIntakeSpeed = 0.6;
         liftSpeed = 0.5;
@@ -236,7 +236,7 @@ public class driverControlTest6 extends OpMode {
 
         switch (leftSideStatus) {
             case -1:
-                telemetry.addData("leftSide: ", "Forwards: " + fL);
+                telemetry.addData("leftSide: ", "Forwards: " + rightSideSpeed);
                 break;
             case 0:
                 telemetry.addData("leftSide: ", "Neutral" + "0");
@@ -297,8 +297,12 @@ public class driverControlTest6 extends OpMode {
             case 1:
                 telemetry.addData("strafe: ", "Right: " + bR);
         }
+        telemetry.addData("baseSpeed: ", baseSpeed);
         telemetry.addData("pivotSpeed: ", pivotIntakeSpeed);
         telemetry.addData("strafeSpeed: ", strafeSpeed);
+        telemetry.addData("liftSpeed: ", liftSpeed);
+        telemetry.addData("leftSideSpeed: ", leftSideSpeed);
+        telemetry.addData("rightSideSpeed: ", rightSideSpeed);
         updateTelemetry(telemetry);
         telemetry.update();
     }
