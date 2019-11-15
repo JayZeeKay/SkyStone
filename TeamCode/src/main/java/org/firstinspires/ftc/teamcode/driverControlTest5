@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
-@TeleOp(name="Driver Control telemetry")
+@TeleOp(name="Driver Control USE THIS")
 public class driverControlTest5 extends OpMode {
 
     DcMotor backLeft, backRight, frontLeft, frontRight,
@@ -22,10 +22,7 @@ public class driverControlTest5 extends OpMode {
             pivotStatus,
             strafeStatus;
 
-    boolean strafeToggle = false;
-    boolean strafeToggle2 = false;
-
-    double pivotSpeed, strafeSpeed, liftSpeed;
+    double baseSpeed, pivotSpeed, strafeSpeed, liftSpeed, open, close;
 
 
 
@@ -58,25 +55,14 @@ public class driverControlTest5 extends OpMode {
         telemetry.update();
 
         strafeSpeed = 0.8;
-
+        open = 0.4;
+        close = -0.4;
     }
 
     @Override
     public void loop() {
 
         //change variables to actual numbers (we need to test it first)
-        double open = 0.4;
-        double close = -0.4;
-
-        /* variables for state of robot:
-        / / / / -1 / / / / 0 / / / / 1 / / / /
-        leftSide: backwards, neutral, forwards
-        rightSide: backwards, neutral, forwards
-        lift: down, neutral, up
-        intake: open, neutral, closed
-        pivot: down, neutral, up
-        strafe: left, neutral, right
-         */
 
         robotStatus();
 
@@ -226,59 +212,6 @@ public class driverControlTest5 extends OpMode {
 
             pivotStatus = 0;
         }
-        /*
-        if (gamepad2.dpad_left) {
-            pivotSpeed -= 0.1;
-            if (pivotSpeed <= 0.2) {
-                pivotSpeed = 0.2;
-            }
-            robotStatus();
-        }
-
-        if (gamepad2.dpad_right) {
-            pivotSpeed += 0.1;
-            if (pivotSpeed >= 0.6) {
-                pivotSpeed = 0.6;
-            }
-            robotStatus();
-        }
-        */
-
-        /*
-        if (!strafeToggle) {
-            if (gamepad1.dpad_down) {
-                strafeSpeed -= 0.1;
-                if (strafeSpeed <= 0.2) {
-                    strafeSpeed = 0.2;
-                }
-                robotStatus();
-                strafeToggle = true;
-            }
-        }
-        if (strafeToggle) {
-            if (!gamepad1.dpad_down) {
-                strafeToggle = false;
-            }
-        }
-
-        if (!strafeToggle2) {
-            if (gamepad1.dpad_up) {
-                strafeSpeed += 0.1;
-                if (strafeSpeed >= 0.6) {
-                    strafeSpeed = 0.6;
-                }
-                robotStatus();
-                strafeToggle2 = true;
-            }
-
-        }
-        if (strafeToggle2) {
-            if (!gamepad1.dpad_up) {
-                strafeToggle2 = false;
-            }
-        }
-        */
-
     }
 
 
@@ -362,16 +295,8 @@ public class driverControlTest5 extends OpMode {
                 telemetry.addData("strafe: ", "Right: " + backRight.getPower());
         }
 
-        //telemetry.addData("leftSide: ", leftSideStatus);
-        //telemetry.addData("rightSide: ", rightSideStatus);
-        //telemetry.addData("lift: ", liftStatus);
-        //telemetry.addData("intake: ", intakeStatus);
-        //telemetry.addData("pivot: ", pivotStatus);
-        //telemetry.addData("strafe: ", strafeStatus);
         telemetry.addData("pivotSpeed: ", pivotSpeed);
         telemetry.addData("strafeSpeed: ", strafeSpeed);
-        telemetry.addData("strafeToggle: ", strafeToggle);
-        telemetry.addData("strafeToggle2: ", strafeToggle2);
         updateTelemetry(telemetry);
         telemetry.update();
     }
