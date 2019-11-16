@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.robotcontroller.internal;
+package org.firstinspires.ftc.robotcontroller;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -11,19 +11,19 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 @TeleOp(name="Driver Control Prototype")
 public class driverControlTest6 extends OpMode {
 
-    DcMotor backLeft, backRight, frontLeft, frontRight,
+    private DcMotor backLeft, backRight, frontLeft, frontRight,
             lift,
             leftPivotIntake, rightPivotIntake;
 
-    CRServo leftPinch, rightPinch;
+    private CRServo leftPinch, rightPinch;
 
-    short leftSideStatus, rightSideStatus,
+    private short leftSideStatus, rightSideStatus,
             liftStatus,
             intakeStatus,
             pivotStatus,
             strafeStatus;
 
-    double baseSpeed, pivotIntakeSpeed, strafeSpeed, liftSpeed,
+    private double baseSpeed, pivotIntakeSpeed, strafeSpeed, liftSpeed,
             leftSideSpeed, rightSideSpeed,
             open, close,
             fL, fR, bL, bR, L, lP, lPI,
@@ -31,7 +31,7 @@ public class driverControlTest6 extends OpMode {
 
     private ElapsedTime runtime = new ElapsedTime();
 
-    boolean controller1, dpadLeft1, dpadRight1, dpadUp1, dpadDown1, controller2, dpadUp2, dpadDown2, rightBumper2, leftBumper2, a2, b2, x2, y2;
+    private boolean controller1, dpadLeft1, dpadRight1, dpadUp1, dpadDown1, controller2, dpadUp2, dpadDown2, rightBumper2, leftBumper2, a2, b2, x2, y2;
 
     @Override
     public void init() {
@@ -49,6 +49,11 @@ public class driverControlTest6 extends OpMode {
         backLeft.setDirection(DcMotorSimple.Direction.REVERSE);
         frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
         rightPivotIntake.setDirection(DcMotorSimple.Direction.REVERSE);
+
+        frontRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        frontLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        backRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        backLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         frontLeft.setPower(0);
         frontRight.setPower(0);
@@ -78,10 +83,14 @@ public class driverControlTest6 extends OpMode {
         rightStick1 = -gamepad1.right_stick_y;
         dpadLeft1 = gamepad1.dpad_left;
         dpadRight1 = gamepad1.dpad_right;
+        dpadUp1 = gamepad1.dpad_up;
+        dpadDown1 = gamepad1.dpad_down;
         dpadUp2 = gamepad2.dpad_up;
         dpadDown2 = gamepad2.dpad_down;
         a2 = gamepad2.a;
         b2 = gamepad2.b;
+        x2 = gamepad2.x;
+        y2 = gamepad2.y;
         rightBumper2 = gamepad2.right_bumper;
         leftBumper2 = gamepad2.left_bumper;
         controller1 = (leftStick1 != 0) || (rightStick1 != 0) || dpadLeft1 || dpadRight1 || dpadUp1 || dpadDown1;
