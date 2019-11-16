@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.robotcontroller.internal;
+package org.firstinspires.ftc.robotcontroller;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 @TeleOp(name="Driver Control USE THIS")
 public class driverControlTest5 extends OpMode {
@@ -22,9 +23,11 @@ public class driverControlTest5 extends OpMode {
             pivotStatus,
             strafeStatus;
 
-    double baseSpeed, pivotSpeed, strafeSpeed, liftSpeed, open, close;
+    double baseSpeed, pivotSpeed, strafeSpeed, liftSpeed,
+            open, close,
+            fL, fR;
 
-
+    private ElapsedTime runtime = new ElapsedTime();
 
     @Override
     public void init() {
@@ -42,21 +45,23 @@ public class driverControlTest5 extends OpMode {
         backLeft.setDirection(DcMotorSimple.Direction.REVERSE);
         frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
 
+        strafeSpeed = 0.8;
+        pivotSpeed = 0.0;
+        open = 0.4;
+        close = -0.4;
+
         frontLeft.setPower(0);
         frontRight.setPower(0);
         backLeft.setPower(0);
         backRight.setPower(0);
 
-        /*leftPinch.setPosition(0);
-        rightPinch.setPosition(180);*/
+        leftPinch.setPower(open);
+        rightPinch.setPower(close);
 
         telemetry.addData("Driver Control", "Robot is Ready");
         updateTelemetry(telemetry);
         telemetry.update();
 
-        strafeSpeed = 0.8;
-        open = 0.4;
-        close = -0.4;
     }
 
     @Override
@@ -194,8 +199,8 @@ public class driverControlTest5 extends OpMode {
 
         //pivot intake up
         if (gamepad2.dpad_up) {
-            leftPivotIntake.setPower(.6);
-            rightPivotIntake.setPower(-.6);
+            leftPivotIntake.setPower(.8);
+            rightPivotIntake.setPower(-.8);
 
             pivotStatus = 1;
             robotStatus();
@@ -226,27 +231,34 @@ public class driverControlTest5 extends OpMode {
     */
 
     public void robotStatus() {
+
+        telemetry.addData("TimeElapsed: ", runtime);
+
+        fL = frontLeft.getPower();
+        fR = frontRight.getPower();
+
+
         switch (leftSideStatus) {
             case -1:
-                telemetry.addData("leftSide: ", "Forwards: " + frontLeft.getPower());
+                telemetry.addData("leftSide: ", "Forwards: " + fL);
                 break;
             case 0:
                 telemetry.addData("leftSide: ", "Neutral" + "0");
                 break;
             case 1:
-                telemetry.addData("leftSide: ", "Backwards: " + frontLeft.getPower());
+                telemetry.addData("leftSide: ", "Backwards: " + fL);
                 break;
         }
 
         switch (rightSideStatus) {
             case -1:
-                telemetry.addData("rightSide: ", "Forwards: " + frontRight.getPower());
+                telemetry.addData("rightSide: ", "Forwards: " + fR);
                 break;
             case 0:
                 telemetry.addData("rightSide: ", "Neutral");
                 break;
             case 1:
-                telemetry.addData("rightSide: ", "Backwards: " + frontRight.getPower());
+                telemetry.addData("rightSide: ", "Backwards: " + fR);
                 break;
         }
 
@@ -297,6 +309,8 @@ public class driverControlTest5 extends OpMode {
 
         telemetry.addData("pivotSpeed: ", pivotSpeed);
         telemetry.addData("strafeSpeed: ", strafeSpeed);
+        telemetry.addData("leftPinch: ", leftPinch.getPower());
+        telemetry.addData("rightPinch: ", rightPinch.getPower());
         updateTelemetry(telemetry);
         telemetry.update();
     }
