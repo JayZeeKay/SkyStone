@@ -17,7 +17,7 @@ public class driverControlTest6 extends OpMode {
 
     CRServo leftPinch, rightPinch;
 
-    int leftSideStatus, rightSideStatus,
+    short leftSideStatus, rightSideStatus,
             liftStatus,
             intakeStatus,
             pivotStatus,
@@ -31,9 +31,7 @@ public class driverControlTest6 extends OpMode {
 
     private ElapsedTime runtime = new ElapsedTime();
 
-    boolean dpadLeft1, dpadRight1, dpadUp1, dpadDown1, dpadUp2, dpadDown2, rightBumper2, leftBumper2, a2, b2, x2, y2;
-    
-    boolean controller1, controller2;
+    boolean controller1, dpadLeft1, dpadRight1, dpadUp1, dpadDown1, controller2, dpadUp2, dpadDown2, rightBumper2, leftBumper2, a2, b2, x2, y2;
 
     @Override
     public void init() {
@@ -95,14 +93,18 @@ public class driverControlTest6 extends OpMode {
 
         // tank drive right
         if (Math.abs(rightStick1) > .1) {
+            // speed modifier to find actual speed
             rightSideSpeed = rightStick1 * baseSpeed;
+            // limiting speed to valid values
             if (rightSideSpeed > 1) {
                 rightSideSpeed = 1;
             } else if (rightSideSpeed < -1) {
                 rightSideSpeed = -1;
             }
+            // set powers of right side
             frontRight.setPower(rightSideSpeed);
             backRight.setPower(rightSideSpeed);
+            // set status of right side
             if (rightStick1 >= .1) {
                 rightSideStatus = 1;
             } else if (rightStick1 <= -.1) {
@@ -138,7 +140,7 @@ public class driverControlTest6 extends OpMode {
             backLeft.setPower(0);
             leftSideStatus = 0;
         }
-        
+
         // strafing left
         if (dpadLeft1) {
             frontLeft.setPower(-strafeSpeed);
@@ -169,7 +171,7 @@ public class driverControlTest6 extends OpMode {
             backRight.setPower(0);
             strafeStatus = 0;
         }
-        
+
         if (dpadUp1) {
             baseSpeed = 1;
             strafeSpeed = 1;
@@ -196,11 +198,11 @@ public class driverControlTest6 extends OpMode {
             lift.setPower(0);
             liftStatus = 0;
         }
-        
+
         if (x2) {
             liftSpeed = 0.5;
         }
-        
+
         if (y2) {
             liftSpeed = 1;
         }
