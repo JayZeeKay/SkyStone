@@ -1,0 +1,89 @@
+package org.firstinspires.ftc.robotcontroller;
+
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Servo;
+
+@Autonomous (name= "AutonPR")
+public class AutonPR extends LinearOpMode {
+    public DcMotor frontRight;
+    public DcMotor frontLeft;
+    public DcMotor backRight;
+    public DcMotor backLeft;
+    public DcMotor lift;
+    public DcMotor Pivot;
+    public Servo leftPinch;
+    public Servo rightPinch;
+
+    @Override
+    public void runOpMode() throws InterruptedException {
+        waitForStart();
+        driveDistance(12, .75, .75);
+
+
+    }
+
+
+
+
+
+    private double TICKS_PER_IN = 1120/(4*Math.PI);
+    public void driveDistance(double inches, double leftPower, double rightPower) {
+        frontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        frontLeft.setMode (DcMotor.RunMode.RUN_USING_ENCODER);
+        backRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        backLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        frontRight = hardwareMap.dcMotor.get("frontRight");
+        frontLeft = hardwareMap.dcMotor.get("frontLeft");
+        backRight = hardwareMap.dcMotor.get("backRight");
+        backLeft = hardwareMap.dcMotor.get("backLeft");
+        lift = hardwareMap.dcMotor.get("lift");
+        Pivot = hardwareMap.dcMotor.get ("Pivot");
+        leftPinch = hardwareMap.servo.get("leftPinch");
+        rightPinch = hardwareMap.servo.get ("rightPinch");
+
+        int leftTickGoal = frontLeft.getCurrentPosition() + (int) (TICKS_PER_IN * inches);
+        int rightTickGoal = frontRight.getCurrentPosition() + (int) (TICKS_PER_IN * inches);
+        int backLeftTickGoal = backLeft.getCurrentPosition() + (int) (TICKS_PER_IN * inches);
+        int backRightTickGoal = backRight.getCurrentPosition() + (int) (TICKS_PER_IN * inches);
+
+        frontLeft.setTargetPosition(leftTickGoal);
+        frontRight.setTargetPosition(rightTickGoal);
+        backLeft.setTargetPosition(backLeftTickGoal);
+        backRight.setTargetPosition(backRightTickGoal);
+
+        while (Math.abs(frontLeft.getCurrentPosition()) < leftTickGoal || Math.abs(frontRight.getCurrentPosition()) < rightTickGoal) {
+
+            frontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            frontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            backLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            backRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+            frontRight.setPower(rightPower);
+            frontLeft.setPower(leftPower);
+
+            backLeft.setPower(frontLeft.getPower());
+            backRight.setPower(frontRight.getPower());
+
+            telemetry.addData("Left Enc ", frontLeft.getCurrentPosition());
+            telemetry.addData("Right Enc ", frontRight.getCurrentPosition());
+            updateTelemetry(telemetry);
+            telemetry.update();
+        }
+
+        frontLeft.setPower(0);
+        frontRight.setPower(0);
+        backRight.setPower(0);
+        backLeft.setPower(0);
+
+    }
+    public void leftStrafe (double rightPower, double leftPower, int milliseconds){
+        frontRight.setPower(rightPower);
+        frontLeft.setPower(-leftPower);
+        backRight.setPower (-rightPower);
+        backLeft.setPower(leftPower);
+        sleep(milliseconds);
+    }
+
